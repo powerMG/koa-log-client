@@ -3,17 +3,16 @@
     <el-col>
       <div class="login-form">
         <div class="login-tit">用户登录</div>
-        <el-form ref="form" :model="form">
+        <el-form ref="form" :model="formInfo">
           <el-form-item>
-            {{ form.username }}
             <el-input
-              v-model="form.username"
+              v-model="formInfo.username"
               placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
           <el-form-item>
             <el-input
-              v-model="form.password"
+              v-model="formInfo.password"
               :show-password="true"
               placeholder="请输入密码"
             ></el-input>
@@ -32,29 +31,16 @@
 <script>
 import { reactive } from "vue";
 export default {
-  // data() {
-  //   return {
-  //     form: {
-  //       username: null,
-  //       password: null,
-  //     },
-  //   };
-  // },
-  // methods: {
-  //   onSubmit() {
-  //     console.log("submit!", this.form.username);
-  //   },
-  // },
   setup() {
-    const form = reactive({
+    const formInfo = reactive({
       username: null,
       password: null,
     });
     function onSubmit() {
-      console.log("submit!", form.username);
+      console.log("submit!", formInfo.username);
     }
     return {
-      form,
+      formInfo,
       onSubmit,
     };
   },
