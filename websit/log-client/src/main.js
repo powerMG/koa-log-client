@@ -1,5 +1,10 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import './index.css'
-
-createApp(App).mount('#app')
+import { createApp } from "vue";
+import App from "./App.vue";
+import "./index.css";
+import router from "./router/index";
+import element3 from "element3";
+import "/@modules/element3/lib/theme-chalk/index.css";
+const app = createApp(App);
+app.use(router);
+app.use(element3);
+app.mount("#app");
