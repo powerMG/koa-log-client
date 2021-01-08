@@ -18,7 +18,11 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit" style="width: 100%"
+            <el-button
+              type="primary"
+              @click="onSubmit"
+              :loading="logLoading"
+              style="width: 100%"
               >登录</el-button
             >
           </el-form-item>
@@ -29,18 +33,38 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, toRefs } from "vue";
+/* Import API File */
+import { Login } from "../../apis/index.js";
+import { useRouter } from "vue-router";
 export default {
   setup() {
+    const router = useRouter();
     const formInfo = reactive({
       username: null,
       password: null,
     });
+    const state = reactive({
+      logLoading: false,
+    });
     function onSubmit() {
+      state.logLoading = true;
       console.log("submit!", formInfo.username);
+      Login(formInfo)
+        .then((res) => {
+          sessionStorage.setItem("LOG_TOKEN", res);
+          router.push("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          state.logLoading = false;
+        });
     }
     return {
       formInfo,
+      ...toRefs(state),
       onSubmit,
     };
   },

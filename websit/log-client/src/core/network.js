@@ -4,25 +4,30 @@ const httpRequest = axios.create({
   timeout: 30000,
 });
 /* 请求拦截器 */
-http.interceptors.request.use(
+httpRequest.interceptors.request.use(
   (config) => {
-    const token = "";
-    // token头设置
-    if (!token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    let isLogin = config.url.match("/api/login");
+    // 除登录接口外其他接口请求头必须含token才可访问
+    if (!isLogin) {
+      const token = sessionStorage.getItem("LOG_TOKEN") || "";
+      // token头设置
+      if (!token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
     }
     return config;
   },
   (err) => {
-    Promise.reject(err);
+    return Promise.reject(err);
   }
 );
 /* 响应拦截器 */
-http.interceptors.response.use(
+httpRequest.interceptors.response.use(
   (res) => {
-    if (res.data.code !== 200) {
+    if (res.data.code === 1) {
+      return Promise.resolve(res.data.data);
     } else {
-      Promise.resolve(res.data.data);
+      return Promise.reject(res.data);
     }
   },
   (err) => {
@@ -32,9 +37,9 @@ http.interceptors.response.use(
     }
     if (err.response.status === 401) {
       // 身份验证失败
-      return err.response;
+      // Promise.reject(err.response) ;
     }
-    return err;
+    return Promise.reject(err);
   }
 );
 export default httpRequest;
