@@ -11,7 +11,7 @@ httpRequest.interceptors.request.use(
     if (!isLogin) {
       const token = sessionStorage.getItem("LOG_TOKEN") || "";
       // token头设置
-      if (!token) {
+      if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
     }
@@ -36,8 +36,12 @@ httpRequest.interceptors.response.use(
       return;
     }
     if (err.response.status === 401) {
-      // 身份验证失败
-      // Promise.reject(err.response) ;
+      // 清空localStorage
+      localStorage.clear();
+      // 清空sessionStorage
+      sessionStorage.clear();
+      // 身份验证失败（跳转回登录页）
+      location.href = "/#/login";
     }
     return Promise.reject(err);
   }

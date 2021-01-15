@@ -1,20 +1,19 @@
 import httpRequest from "../core/network";
 
-const BASEAPI = import.meta.env.VITE_API_LOGIN;
-/* 登录 */
-function Login(data) {
+const BASEAPI = import.meta.env.VITE_API_MENU;
+/* 获取菜单信息 */
+function GetMenuList() {
   console.log(process.env.NODE_ENV);
   console.log(BASEAPI);
   return new Promise((resolve, reject) => {
     httpRequest
-      .post(`${BASEAPI}/login`, data)
+      .get(`${BASEAPI}/GetMenuList`)
       .then((res) => {
         resolve(res);
       })
       .catch((err) => {
-        debugger;
         reject(err);
       });
   });
 }
-export { Login };
+export { GetMenuList };
