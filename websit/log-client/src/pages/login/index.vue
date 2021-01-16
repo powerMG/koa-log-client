@@ -53,7 +53,7 @@ export default {
       Login(formInfo)
         .then((res) => {
           sessionStorage.setItem("LOG_TOKEN", res);
-          router.push("/");
+          router.push({ name: "home" });
         })
         .catch((err) => {
           console.log(err);

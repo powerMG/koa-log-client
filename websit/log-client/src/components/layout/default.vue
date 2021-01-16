@@ -41,40 +41,18 @@
       class="layout-nav-data"
     >
       <el-menu
-        default-active="1"
+        default-active="home"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
-        :default-openeds="defaultOpeneds"
+        @select="goRouter"
       >
-        <el-menu-item index="1">
-          <i class="el-icon-menu"></i>
+        <el-menu-item
+          v-for="item in menuList"
+          :index="item.actionUrl"
+          :key="item.id"
+        >
+          <i :class="item.icon"></i>
           <template v-slot:title>
-            <span>数据总览</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <i class="el-icon-info"></i>
-          <template v-slot:title>
-            <span>日志信息</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="3">
-          <i class="el-icon-error"></i>
-          <template v-slot:title>
-            <span>错误信息</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-warning"></i>
-          <template v-slot:title>
-            <span>警告信息</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="5">
-          <i class="el-icon-setting"></i>
-          <template v-slot:title>
-            <span>系统设置</span>
+            <span>{{ item.name }}</span>
           </template>
         </el-menu-item>
       </el-menu>
@@ -83,18 +61,31 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { computed, reactive, toRefs } from "vue";
+/* Import  vuex */
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   setup() {
+    const store = useStore();
+    const router = useRouter();
     const state = reactive({
       drawer: false,
+      menuList: computed(() => store.getters.menuList),
     });
-    function showNav() {
+    // 初始化获取菜单信息
+    (() => store.dispatch("QueryMenuList"))();
+    let showNav = () => {
       state.drawer = true;
-    }
+    };
+    let goRouter = (action) => {
+      console.log("aaaaa", action);
+      router.push({ name: action });
+    };
     return {
       ...toRefs(state),
       showNav,
+      goRouter,
     };
   },
 };

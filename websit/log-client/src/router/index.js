@@ -18,6 +18,26 @@ const router = createRouter({
           name: "home",
           component: () => import("../pages/Home/index.vue"),
         },
+        {
+          path:"/info",
+          name:"info",
+          component:()=>import("../pages/Info/index.vue")
+        },
+        {
+          path:"/error",
+          name:"error",
+          component:()=>import("../pages/Error/index.vue")
+        },
+        {
+          path:"/warning",
+          name:"warning",
+          component:()=>import("../pages/Warning/index.vue")
+        },
+        {
+          path:"/setting",
+          name:"setting",
+          component:()=>import("../pages/Setting/index.vue")
+        }
       ],
     },
   ],
