@@ -9,7 +9,7 @@
             </div>
             <div class="layout-header-left--logo">logo</div>
           </el-col>
-          <el-col :span="16">content</el-col>
+          <el-col :span="16">&nbsp;</el-col>
           <el-col :span="4" class="layout-header-right">
             <el-popover
               class="layout-header-right--passport"
